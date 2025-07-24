@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { backendClient } from "../clients/backendClient.js";
+import { backendClient } from "../clients/backendClient";
 import { useNavigate } from "react-router-dom";
 
 function RegisterPage() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
+    username: "",
     email: "",
     password: "",
   });
@@ -21,7 +22,7 @@ function RegisterPage() {
     e.preventDefault();
 
     try {
-      const res = await backendClient.post("/users/login", formData);
+      const res = await backendClient.post("/users/register", formData);
       console.log(res.data);
 
       localStorage.setItem("social-app-token", JSON.stringify(res.data.token));
@@ -34,10 +35,18 @@ function RegisterPage() {
 
   return (
     <main>
-      <h1>Sign In Page</h1>
+      <h1>RegisterPage</h1>
 
       <form onSubmit={handleSubmit}>
-        <h2>Sign In</h2>
+        <h2>Register</h2>
+        <label htmlFor="username" />
+        <input
+          type="text"
+          name="username"
+          placeholder="User Name"
+          value={formData.username}
+          onChange={handleChange}
+        />
 
         <label htmlFor="email" />
         <input
@@ -57,7 +66,7 @@ function RegisterPage() {
           onChange={handleChange}
         />
 
-        <input type="submit" value="Login" />
+        <input type="submit" value="Register" />
       </form>
     </main>
   );
